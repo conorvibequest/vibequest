@@ -1,0 +1,214 @@
+<ion-header>
+  <div class="topHead pb0 pb5">
+    <h1 class="p0">
+      Events
+    </h1>
+  </div>
+  <div class="customTab mt10">
+    <ion-segment (ionChange)="segmentChanged()" color="white" id="phaseSegment">
+      <ion-segment-button [value]="i" *ngFor="let title of aboutPhaseTitle;let i = index" (click)="tabToggle(i)" id="segment_{{i}}">
+        <h5 [ngClass]="i == segment ? 'selected':''">{{title}}</h5>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Pull to refresh"
+      refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="eventsSection">
+    <ion-slides #slides (ionSlideDidChange)="slideChanged()" scrollbar="true">
+      <ion-slide>
+        <ng-container>
+          <div class="createNewDiv leftRightSpacing" *ngIf="isEventDataEmpty">
+            <div class="noEventImg">
+              <svg class="myIcon">
+                <use xlink:href="../../assets/sprite.svg#searchEvent"></use>
+              </svg>
+            </div>
+            <p>You have not created any events yet!</p>
+            <ion-button class="primaryBtn" shape="" fill="clear" expand="block" [routerLink]="['/new-event']">Create Now
+            </ion-button>
+          </div>
+          <div class="eventList leftRightSpacing" *ngIf="eventData.length>0">
+            <ng-container *ngFor="let event of eventData">
+              <div class="fullEventBox" (click)="onClickEvent(event.id,'MyEvent')">
+                <div class="eventTitle align-center align-between">
+                  <h4>{{event.name}}</h4>
+                  <div class="eventTag {{event.categoryName | lowercase}}">
+                    {{event.categoryName}}
+                  </div>
+                </div>
+                <div class="timeDate align-center">
+                  <img src="../../assets/images/calendar.svg" class="mr5" alt="">
+                  {{event.date|date}}
+                  <svg class="ml10 mr10" width="4" height="4" viewBox="0 0 4 4" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="2" cy="2" r="2" fill="#F5F5F5" />
+                  </svg>
+                  {{event.startTime|hour}} - {{event.endTime|hour}}
+                </div>
+                <div class="fullEventImg">
+                  <img [src]="event.mediaFileName" alt="">
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <!-- Events Skeleton Section -->
+          <div *ngIf="isEventEmpty">
+            <div class="block mt30">
+              <div class="border-bottom pl30 pr30 pb30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>  
+              <div class="border-bottom pl30 pr30 pb30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>
+              <div class="border-bottom pl30 pr30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+          <!-- End Skeleton Section -->
+        </ng-container>
+      </ion-slide>
+
+      <ion-slide>
+        <ng-container>
+          <div class="createNewDiv leftRightSpacing" *ngIf="isUpcomingEventDataEmpty">
+            <div class="noEventImg searchUpcomingEvent">
+              <svg class="myIcon">
+                <use xlink:href="../../assets/sprite.svg#searchUpcomingEvent"></use>
+              </svg>
+            </div>
+            <p>There is no upcoming event, Find event and be a part of it.</p>
+            <ion-button class="primaryBtn" shape="" fill="clear" expand="block" [routerLink]="['/app/home']">Find Event
+            </ion-button>
+          </div>
+          <div class="eventList leftRightSpacing" *ngIf="upcomingEventData.length>0">
+            <ng-container *ngFor="let upcomingevent of upcomingEventData">
+              <div class="upcommintEvent" (click)="onClickEvent(upcomingevent.id,'UpcomingEvent')">
+                <div class="fullEventBox">
+                  <div class="eventTitle align-center align-between">
+                    <h4>{{upcomingevent.name}}</h4>
+                    <div class="eventTag {{upcomingevent.categoryName | lowercase}}">
+                      {{upcomingevent.categoryName}}
+                    </div>
+                  </div>
+                  <div class="timeDate align-center">
+                    <img src="../../assets/images/calendar.svg" class="mr5" alt="">
+                    {{upcomingevent.date|date}}
+                    <svg class="ml10 mr10" width="4" height="4" viewBox="0 0 4 4" fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="2" cy="2" r="2" fill="#F5F5F5" />
+                    </svg>
+                    {{upcomingevent.startTime|hour}} - {{upcomingevent.endTime|hour}}
+                  </div>
+                  <div class="fullEventImg">
+                    <img [src]="upcomingevent.mediaFileName" alt="">
+                  </div>
+                </div>
+                <div class="host align-center">
+                  <div class="text-light mr5 fw-500">HOST:</div>
+                  <div class="hostUser align-center fw-500 text-dark">
+                    <span class="userImg mr5 ml5">
+                      <img
+                        [src]="upcomingevent.profilePicture?upcomingevent.profilePicture:'../../assets/images/profile.svg'"
+                        alt="">
+                    </span>
+                    {{upcomingevent.userName}}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <!-- Events Skeleton Section -->
+          <div *ngIf="isUpcomingEventEmpty">
+            <div class="block mt30">
+              <div class="border-bottom pl30 pr30 pb30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>  
+              <div class="border-bottom pl30 pr30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>
+              <div class="border-bottom pl30 pr30 pt30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>   
+            </div>
+          </div>
+          <!-- End Skeleton Section -->
+        </ng-container>
+      </ion-slide>
+
+      <ion-slide>
+        <ng-container>
+          <div class="createNewDiv leftRightSpacing" *ngIf="isPastEventDataEmpty">
+            <div class="noEventImg noPastEvent">
+              <svg class="myIcon">
+                <use xlink:href="../../assets/sprite.svg#noPastEvent"></use>
+              </svg>
+            </div>
+            <p> There is no past event!</p>
+          </div>
+          <div class="eventList leftRightSpacing" *ngIf="pastEventData.length>0">
+            <ng-container *ngFor="let pastEvent of pastEventData">
+              <div class="fullEventBox" (click)="onClickEvent(pastEvent.id,'PastEvent')">
+                <div class="eventTitle align-center align-between">
+                  <h4>{{pastEvent.name}}</h4>
+                  <div class="eventTag {{pastEvent.categoryName | lowercase}}">
+                    {{pastEvent.categoryName}}
+                  </div>
+                </div>
+                <div class="timeDate align-center">
+                  <img src="../../assets/images/calendar.svg" class="mr5" alt="">
+                  Completed {{pastEvent.daysAgo}} {{pastEvent.daysAgo<=1?'day':'days'}} ago </div>
+                    <div class="fullEventImg">
+                      <img [src]="pastEvent.mediaFileName" alt="">
+                    </div>
+                </div>
+            </ng-container>
+          </div>
+          <!-- Past Events Skeleton Section -->
+          <div *ngIf="isPastEventEmpty">
+            <div class="block mt30">
+              <div class="border-bottom pl30 pr30 pb30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>  
+              <div class="border-bottom pl30 pr30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>
+              <div class="border-bottom pl30 pr30 pt30">
+                <ion-skeleton-text animated style="width: calc(100vw - 60px); height:  160px;">
+                </ion-skeleton-text>
+              </div>   
+            </div>
+          </div>
+          <!-- End Skeleton Section -->
+        </ng-container>
+      </ion-slide>
+    </ion-slides>
+  </div>
+
+</ion-content>
+
+<ion-footer class="addIconBtn">
+  <div class="addIcon" *ngIf="showAddButton && !isEventDataEmpty">
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/new-event']">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+</ion-footer>
+ 

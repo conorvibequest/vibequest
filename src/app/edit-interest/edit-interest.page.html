@@ -1,0 +1,51 @@
+<ion-content>
+  <div class="align-center topHead">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+    <h1>
+      Interests
+    </h1>
+  </div>
+
+  <div class="leftRightSpacing">
+    <div class="space-between align-center editInterest">
+      <div class="textDiv"> Select upto 4 types</div>
+      <div class="selectPhotos align-center">
+        <div>{{selectCount}}</div>/4
+      </div>
+    </div>
+
+    <div class="eventsList">
+      <div class="eventsListRow">
+        <div class="event partyEvent" *ngFor="let interest of interests">
+          <div class="eventImg">
+            <img [src]="interest.thumbnailImagePath" alt="">
+          </div>
+          <ion-checkbox [class]="interest.checked?'checkbox-checked':''" [(ngModel)]="interest.checked" [disabled]="disableCheckbox(interest.id)"
+            (ionChange)="checked(interest)"></ion-checkbox>
+          <div class="customCheckbox">
+            <div class="customCheckboxIcon">
+              <svg class="myIcon">
+                <use xlink:href="../../assets/sprite.svg#customCheckboxIcon"></use>
+              </svg>
+            </div>
+          </div>
+          <ion-label>{{interest.name}}</ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer >
+  <ion-toolbar>
+    <div class="footerDiv fullBtn">
+      <ion-button shape="" id="btn" [disabled]="selectedInterests.length==0" (click)="onClickSave()">Save
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

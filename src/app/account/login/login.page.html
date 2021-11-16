@@ -1,0 +1,58 @@
+<ion-content>
+  <div class="formDiv leftRightSpacing">
+    <div class="formdetailsSection">
+      <h1 class="pb10">Login</h1>
+
+      <div class="loginInfo">
+        <form [formGroup]="loginForm" (ngSubmit)="login()">
+          <div class="inputs-list pb60">
+            <div class="inputDiv">
+              <ion-label>Email</ion-label>
+              <ion-input type="Email" id="email" (keyup.enter)="closeKeyboard()" autocomplete="on" formControlName="email" autocapitalize="off" inputmode="email">
+              </ion-input>
+            </div>
+            <div class="error-container">
+              <ng-container *ngFor="let validation of validation_messages.email">
+                <div class="error-message"
+                  *ngIf="loginForm.get('email').hasError(validation.type) && (loginForm.get('email').dirty || loginForm.get('email').touched || isSubmitted)">
+                  <span>{{ validation.message }}</span>
+                </div>
+              </ng-container>
+            </div>
+            <div class="inputDiv passwordInput">
+              <ion-label>Password</ion-label>
+              <ion-input type="password" id="password" (keyup.enter)="closeKeyboard()" autocorrect="on" autocomplete="on" #password formControlName="password"></ion-input>
+              <a class="hidePassword" (click)="toggleShow()">
+                <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+                <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+              </a>
+              <!-- <div class="hidePassword">
+                <svg class="myIcon">
+                  <use xlink:href="../../assets/sprite.svg#hide"></use>
+                </svg>
+              </div> -->
+            </div>
+            <div class="error-container">
+              <ng-container *ngFor="let validation of validation_messages.password">
+                <div class="error-message"
+                  *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty || loginForm.get('password').touched || isSubmitted)">
+                  <span>{{ validation.message }}</span>
+                </div>
+              </ng-container>
+            </div>
+            <div class="forgotPassword">
+              <ion-button class="forgotPswBtn" fill="clear" [routerLink]="['/forgot-password']">Forgot password?
+              </ion-button>
+            </div>
+          </div>
+          <ion-button class="p0" shape="" expand="block" type="submit">Login</ion-button>
+          <!-- <ion-button class="p0" shape="" expand="block" [routerLink]="['/app/home']">Interest</ion-button> -->
+          <div class="signLoginDiv">
+            Not a member? <strong class="fw-500 text-link" [routerLink]="['/sign-up']">Sign Up</strong>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

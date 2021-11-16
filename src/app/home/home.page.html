@@ -1,0 +1,110 @@
+<ion-content [fullscreen]="true">
+  <!-- <div class="blurBox"></div> -->
+  <div class="whiteBox">
+    <div class="leftRightSpacing homeHeader">
+      <div class="align-between">
+        <div class="welcome">
+            <span class="fw-300">Welcome&nbsp;</span>
+            <div class="homeName mr5 capitalize"> 
+              {{userName}}
+            </div>
+            👋
+        </div>
+        <div class="topIcons align-center">
+          <div class="searchDiv" [routerLink]="['/search-event']" [state]="{ events: this.allEvents}">
+            <svg class="myIcon">
+              <use xlink:href="../../assets/sprite.svg#searchIcon"></use>
+            </svg>
+          </div>
+          <div class="{{isNewNotification == true ?'notification focus active-notification':'notification focus'}} ml5" [routerLink]="['/notifications']">
+            <svg class="myIcon">
+              <use xlink:href="../../assets/sprite.svg#notification"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="skeleton" *ngIf="isDataLoading">
+        <div class="align-center locationMapDiv">
+          <ion-skeleton-text animated style="width: 200px; height: 12px;  border-radius: 50px;">
+          </ion-skeleton-text>
+        </div>
+      </div>
+      <div class="align-center locationMapDiv" (click)="openLocationModal()" *ngIf="!isDataLoading">
+        <img src="../../assets/images/location.svg" class="mr5" alt="">
+        {{addressComponent}}
+        <svg width="12" height="8" class="ml10" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11 1.5L6 6.5L1 1.5" stroke="#18161D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>        
+      </div>
+    </div>
+
+    <div class="leftRightSpacing mt20 mb10" *ngIf="isDataLoading">
+      <div class="align-center">
+        <ion-skeleton-text animated style="width: 100px; height:  35px;  border-radius: 50px;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 90px; height:  35px; margin-left: 15px;  border-radius: 50px;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80px; height:  35px; margin-left: 15px;  border-radius: 50px;">
+        </ion-skeleton-text>
+      </div>
+    </div>
+
+    <div class="categoryBox" *ngIf="!isDataLoading">
+      <ion-slides pager="false" [options]="sliderOptions">
+        <ion-slide (click)="onClickAllTag()">
+          <span id="allTag" class="tag">
+            All
+          </span>
+        </ion-slide>
+        <ng-container *ngFor="let category of mapEvents.categoriesDto">
+          <ion-slide (click)="onClickTag(category.id)">
+            <span id={{category.id}} class="tag">
+              {{category.name}}
+            </span>
+          </ion-slide>
+        </ng-container>
+      </ion-slides>
+    </div>
+  </div>
+  
+  <ng-container *ngIf="isLoading">
+    <div class="align-center justify-content-center p180">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-container>
+
+  <div class="mapSection" id="mapId" style="height: 100%; width: 100%; background: #eee;"></div>
+
+  <div class="customPopup" *ngIf="isShowPopup">
+    <div class="custPopupBox">
+      <div class="popIcon">
+        <img src="../../assets/images/location-blue.svg">
+      </div>
+      <h4 class="text-primary">Location permission is not enabled.</h4>
+      Please grant us permission to access your location so that we can provide you the accurate events information.
+      <div class="custPopupBtn">
+        <div class="text-center text-primary fw-500">
+          <ion-button expand="full" color="primary" fill="clear" (click)="onClickGrantPermission()">Grant Permission</ion-button>          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="customPopup" *ngIf="isShowLocationPopup">
+    <div class="custPopupBox">
+      <div class="popIcon">
+        <img src="../../assets/images/location-blue.svg">
+      </div>
+      <h4 class="text-primary">Location is not enabled.</h4>
+      Please turn on device location.
+      <div class="custPopupBtn">
+        <div class="text-center text-primary fw-500">
+          <ion-button expand="full" color="primary" fill="clear" (click)="onClickEnableLocation()">Turn on
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

@@ -1,0 +1,72 @@
+<ion-content>
+
+  <div class="align-center topHead">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+    <h1>
+      Attendees
+    </h1>
+  </div>
+
+  <div class="friendsListDetails attendeesFriends leftRightSpacing">
+    <div class="friendsList inviteFriendsDiv" [routerLink]="['/invite-friends']" [state]="{eventId: eventId}">
+      <div class="friendsInfo">
+        <div class="invitefriendsImg">
+          <img src="../../assets/images/addInviteFriend.svg" alt="">
+        </div>
+        <div class="inviteLabel">
+          Invite Friends
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="isLoading">
+      <!-- Skeleton Section -->
+      <div class="leftRightSpacing block mt20">
+        <div class="border-bottom align-center pb30">
+          <ion-skeleton-text animated style="width: 45px; height:  45px;  border-radius: 50%;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: calc(100% - 45px); margin-left: 20px; height:  25px;">
+          </ion-skeleton-text>
+        </div>  
+        <div class="border-bottom align-center pb30">
+          <ion-skeleton-text animated style="width: 45px; height:  45px;  border-radius: 50%;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: calc(100% - 65px); margin-left: 20px; height:  25px;">
+          </ion-skeleton-text>
+        </div>  
+        <div class="border-bottom align-center pb30">
+          <ion-skeleton-text animated style="width: 45px; height:  45px;  border-radius: 50%;">
+          </ion-skeleton-text>
+          <ion-skeleton-text animated style="width: calc(100% - 35px); margin-left: 20px; height:  25px;">
+          </ion-skeleton-text>
+        </div>  
+      </div>
+      <!-- End Skeleton Section -->
+    </ng-container>
+
+    <div *ngIf="!isLoading">
+      <ng-container *ngIf="attendees && attendees.length>0">
+        <div class="friendsList" *ngFor="let attendee of attendees">
+          <div class="friendsInfo">
+            <div class="friendsImg">
+              <img *ngIf="attendee.profilePicture" [src]="attendee.profilePicture" alt="">
+              <div class="noProfile" *ngIf="!attendee.profilePicture">
+                {{attendee.name.charAt(0)}}
+              </div>
+            </div>
+            <div class="friendsName">
+              {{attendee.name}}
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
+</ion-content>

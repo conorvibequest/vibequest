@@ -1,0 +1,58 @@
+
+
+<ion-content>
+
+  <div class="align-center topHead">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+    <h1>
+      Add Friends
+    </h1>
+  </div>
+
+  <div class="leftRightSpacing pt5">
+    <div class="searchbarDiv">
+      <ion-searchbar mode="ios" [(ngModel)]="searchKey" enterkeyhint="search" (ionChange)="onChange()" inputmode="email" (keypress)="findFriends($event)"></ion-searchbar>
+    </div>
+
+    <div class="searchFriendsDiv friendsListDetails">
+      <div class="friendsList" *ngIf="addUserList!=null">
+        <div class="friendsInfo">
+          <div class="friendsImg">            
+            <img *ngIf="!addUserList.profilePicture" src="../../assets/images/deafultFriendsProfile.svg" alt="">
+            <img *ngIf="addUserList.profilePicture" src="{{addUserList.profilePicture}}" alt="">            
+          </div>
+          <div class="friendsName">
+            {{(addUserList.status=="Add" || addUserList.status =="Cancel") ? addUserList.name:addUserList.email}}
+          </div>
+        </div>
+        <div class="inviteSent" *ngIf="addUserList.status == 'Invitation Sent'">Invite Sent</div>
+        <ion-button mode="ios" *ngIf="addUserList.status != 'Invitation Sent'" shape="" expand="block" 
+        class="{{addUserList.status == 'Cancel'?'cancelRequest':''}}" (click)="addFriends(addUserList.status)">
+          {{statusText}}
+        </ion-button>
+        <!-- <ion-button class="cancelRequest"  *ngIf="addUserList.status == 'Invite'">Cancel request</ion-button> -->
+      </div>
+    </div>
+
+    <!-- <div>
+      <div class="createNewDiv leftRightSpacing pt150">
+        <div class="noEventImg">
+          <img src="../../assets/images/noResultEmail.gif" alt=""> 
+        </div>
+        <p class="fs-18">No result found Please check the email id.</p>    
+      </div>
+    </div>  -->
+
+
+  </div>
+
+  <div *ngIf="isUserListEmpty">
+    <h3>No records found! 1</h3>
+  </div>
+
+</ion-content>

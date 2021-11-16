@@ -1,0 +1,42 @@
+<ion-content>
+  <div class="leftRightSpacing">
+    <div class="interstsTopInfo">
+      <strong>Welcome {{name?name.trim():name}},</strong>
+      <h1>What type of events you are interested in?</h1>
+      <div class="space-between align-center">
+        <div class="textDiv"> Select upto 4 types</div>
+        <div class="selectPhotos align-center">
+          <div>{{selectCount}}</div>/4
+        </div>
+      </div>
+    </div>
+
+    <div class="eventsList">
+      <div class="eventsListRow">
+        <div class="event partyEvent" *ngFor="let interest of interests;let i = index">
+          <div class="eventImg">
+            <img [src]="interest.thumbnailImagePath" alt="">
+          </div>
+          <ion-checkbox [(ngModel)]="interest.checked" [disabled]="disableCheckbox(interest.id)"
+            (ionChange)="checked(interest)"></ion-checkbox>
+          <div class="customCheckbox">
+            <div class="customCheckboxIcon">
+              <svg class="myIcon">
+                <use xlink:href="../../assets/sprite.svg#customCheckboxIcon"></use>
+              </svg>
+            </div>
+          </div>
+          <ion-label>{{interest.name}}</ion-label>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+<ion-footer >
+  <ion-toolbar>
+    <div class="footerDiv fullBtn">
+      <ion-button shape="" [disabled]="selectedInterests.length==0" (click)="onClickContinue()">
+        Continue</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

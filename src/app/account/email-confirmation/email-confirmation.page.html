@@ -1,0 +1,64 @@
+<ion-content>
+
+  <div class="align-center topHead bgNone">
+    <div class="backButtonBox" [routerLink]="['/forgot-password']">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+  </div>
+
+  <div class="emailConfirmationDiv">
+    <div class="successDiv">
+      <div class="successDivIcon">
+        <svg class="myIcon">
+          <use xlink:href="../../assets/sprite.svg#rightIcon"></use>
+        </svg>
+      </div>
+      <div class="rippleDiv">
+        <div class="rippleEffect" style="--i: 1;"></div>
+        <div class="rippleEffect" style="--i: 2;"></div>
+        <div class="rippleEffect" style="--i: 3;"></div>
+        <div class="rippleEffect" style="--i: 4;"></div>
+      </div>
+    </div>
+    <div class="successInfo">
+      <h3>Email Sent!</h3>
+      <div>
+        <div class="textDiv pb55" *ngIf="email">
+          OTP sent to below email id:<br>
+          <strong class="text-dark fw-500">{{email}}</strong>
+        </div>
+        <div class="SenterCode">
+          Enter your code
+        </div>
+        <ng-otp-input (onInputChange)="onOtpChange($event)" #otpInput [config]="{length:4,allowNumbersOnly:true}"></ng-otp-input>
+        <!-- <div class="inputs-list">
+          <form [formGroup]="otpForm" (ngSubmit)="onClickSubmit()">
+            <div class="inputDiv pb20">
+              <ion-input placeholder="Enter OTP" formControlName="securityToken"></ion-input>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validation_messages.securityToken">
+                  <div class="error-message"
+                    *ngIf="otpForm.get('securityToken').hasError(validation.type) && (otpForm.get('securityToken').dirty || otpForm.get('securityToken').touched || isSubmitted)">
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <ion-button class="p0" shape="" expand="block" type="submit">Submit</ion-button>
+          </form>
+        </div> -->
+
+        <div class="resendDiv">
+          <div>
+            <div class="textDiv">Didn’t receive email? </div>
+            <div class="resendBtn" (click)="onClickResend()"> Resend</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,40 @@
+
+<ion-content>
+
+  <div class="topHead searchFriendsBox">    
+      <div class="backButtonBox">
+        <svg class="myIcon backIcon dark">
+          <use xlink:href="../../assets/sprite.svg#backButton"></use>
+        </svg>
+        <ion-back-button class="backButton"></ion-back-button>
+      </div>
+      <div class="searchbarDiv">
+        <ion-searchbar mode="ios" (ionChange)="filterFriends()" (keypress)="closeKeyboard($event)"  [(ngModel)]="searchTerm">
+        </ion-searchbar>
+      </div>
+    </div>
+  
+  
+    <div class="friendsListDetails leftRightSpacing" *ngFor= "let friend of friendList;let i = index">
+      <div class="friendsList"> 
+        <div class="friendsInfo">
+          <div class="friendsImg">
+            <img src="{{friend.profilePicture?friend.profilePicture:'../../assets/images/deafultFriendsProfile.svg'}}" alt="">
+          </div>
+          <div class="friendsName">
+            {{friend.name}}
+          </div>
+        </div>
+        <div class="removePerson">
+          <svg class="myIcon"  (click)="presentAlertConfirm(friend.friendUserId,friend.name)">
+            <use xlink:href="../../assets/sprite.svg#removePerson"></use>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isFriendListEmpty">
+      <h3>No records found! 2</h3>
+    </div>
+  </ion-content>
+  

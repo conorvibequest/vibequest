@@ -1,0 +1,93 @@
+<ion-content>
+
+  <div class="align-center topHead">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+    <h1>
+      Notifications
+    </h1>
+  </div>
+
+  <div class="leftRightSpacing">
+
+    <div *ngIf="!isLoading">
+      <div class="friendsRequestDiv" *ngIf="notificationsList && notificationsList.length > 0">
+        <ng-container *ngFor="let notification of notificationsList">
+          <div class="friendsRequestBox"
+            *ngIf="notification.type=='Notification' && notification.notifications.type=='FriendRequest'">
+            <div class="friendsProfileImg">
+              <img [src]="notification.notifications.profilePicture?notification.notifications.profilePicture:'../../assets/images/deafult-profile-img.svg'" alt="">
+            </div>
+            <div class="friendsRequestInfo">
+              <h4>{{notification.notifications.fromUserName}} accepted your friendship request </h4>
+              <div class="friendsRequestTime">{{notification.date|timeAgo}}</div>
+            </div>
+          </div>
+          <div class="friendsRequestBox" *ngIf="notification.type=='FriendRequest'">
+            <div class="friendsProfileImg">
+              <img [src]="notification.userFriendsDto.profilePicture?notification.userFriendsDto.profilePicture:'../../assets/images/deafult-profile-img.svg'" alt="">
+            </div>
+            <div class="friendsRequestInfo" id="{{notification.userFriendsDto.id}}">
+              <h4>{{notification.userFriendsDto.name}} send you the friendship request</h4>
+              <div class="friendsRequestTime"> {{notification.date|timeAgo}}</div>
+              <div class="btnDiv align-center pt15">
+                <ion-button class="p0 height40 fs-16" shape="" expand="block" (click)="accceptFriendRequest(notification.userFriendsDto.id,notification.userFriendsDto.name)">Accept</ion-button>
+                <ion-button class="height40 fs-16 fs-16p0 pl5 text-link" shape="" fill="" expand="block" (click)="declineFriendRequest(notification.userFriendsDto.id,notification.userFriendsDto.name)">Discard
+                </ion-button>
+              </div>
+            </div>
+          </div>
+          <div class="friendsRequestBox"
+            *ngIf="notification.type=='Notification' && notification.notifications.type=='Event'">
+            <div class="friendsProfileImg">
+              <img [src]="notification.notifications.profilePicture?notification.notifications.profilePicture:'../../assets/images/deafult-profile-img.svg'" alt="">
+            </div>
+            <div class="friendsRequestInfo">
+              <h4>{{notification.notifications.fromUserName}} invited you to an event “<strong
+                  class="fw-600">{{notification.notifications.eventName}}</strong>”</h4>
+              <div class="friendsRequestTime"> {{notification.date|timeAgo}}</div>
+              <div class="viewEventBtn align-center pt15" [routerLink]="['/event-details']" [state]="{eventId: notification.notifications.eventId}" >
+                View event
+                <div class="rightArrow">
+                  <svg class="myIcon">
+                    <use xlink:href="../../assets/sprite.svg#rightArrow"></use>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="noNotificationData" *ngIf="!notificationsList">No Notifications</div>
+    </div>
+
+    <!-- Skeleton Section -->
+    <div class="block mt20" *ngIf="isLoading">
+      <div class="border-bottom align-center pb30">
+        <ion-skeleton-text animated style="width: 45px; height:  45px;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: calc(100% - 45px); margin-left: 20px; height:  45px;">
+        </ion-skeleton-text>
+      </div>  
+      <div class="border-bottom align-center pb30">
+        <ion-skeleton-text animated style="width: 45px; height:  45px;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: calc(100% - 45px); margin-left: 20px; height:  45px;">
+        </ion-skeleton-text>
+      </div>  
+      <div class="border-bottom align-center pb30">
+        <ion-skeleton-text animated style="width: 45px; height:  45px;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: calc(100% - 45px); margin-left: 20px; height:  60px;">
+        </ion-skeleton-text>
+      </div>  
+    </div>
+    <!-- End Skeleton Section -->
+
+  </div>
+
+</ion-content>

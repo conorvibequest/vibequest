@@ -1,0 +1,165 @@
+<ion-content class="eventDetailsPage" [scrollEvents]="true" (ionScroll)="onScroll($event)">
+  <div class="align-center topHead eventDetailsHeader" [ngClass]="backBtnAddClass ? 'darkBg' : ''"
+    *ngIf="eventDetails && eventDetails.events && eventDetails.eventMedia">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon light">
+        <use xlink:href="../../assets/sprite.svg#backButtonWhite"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+    <div class="editButton" *ngIf="eventDetails.events.userId == userData.id" (click)="onClickEdit(eventDetails.events.id)">
+      Edit  
+    </div>
+    <h1 class="text-white titleHide" [ngClass]="titleShow ? 'titleShow' : ''">{{eventDetails.events.name}}</h1>
+  </div>
+
+
+  <ng-container *ngIf="isLoading">
+    <!-- Skeleton Section -->
+    <div class="block">
+      <div class="border-bottom pb30">
+        <ion-skeleton-text animated style="width:100%; height:280px; border-radius: 0;">
+        </ion-skeleton-text>
+        <div class="leftRightSpacing mt20">
+          <ion-skeleton-text animated style="width:100%; height:20px;">
+          </ion-skeleton-text>
+
+          <ion-skeleton-text class="mt15" animated style="width:100%; height:10px;">
+          </ion-skeleton-text>
+          <ion-skeleton-text class="mt5" animated style="width:100%; height:10px;">
+          </ion-skeleton-text>
+          <ion-skeleton-text class="mt5" animated style="width:80%; height:10px;">
+          </ion-skeleton-text>
+
+          <ion-skeleton-text class="mt30" animated style="width:100%; height:150px;">
+          </ion-skeleton-text>
+
+          <div class="border-bottom align-center mt30 ">
+            <ion-skeleton-text animated style="min-width: 80px; max-width: 80px; height:  80px;  border-radius: 10px;">
+            </ion-skeleton-text>
+            <div class="pl20 w-100">
+              <ion-skeleton-text animated style="width:100%; height:10px;">
+              </ion-skeleton-text>
+              <ion-skeleton-text class="mt10" animated style="width:100%; height:10px;">
+              </ion-skeleton-text>
+              <ion-skeleton-text class="mt10" animated style="width:80%; height:10px;">
+              </ion-skeleton-text>
+            </div>
+          </div> 
+        </div>
+      </div> 
+    </div>
+    <!-- End Skeleton Section -->
+  </ng-container>
+  
+  <ng-container *ngIf="!isLoading">
+    <div>
+      <ion-slides class="bannerImage" [options]="slideOpts" pager="true" #imageSlider>
+        <ion-slide *ngFor="let media of eventDetails.eventMedia">
+          <div>
+            <img [src]="media.fileName" alt="">
+          </div>
+        </ion-slide>
+      </ion-slides>
+    </div> 
+    
+    <div class="getStickyPossition"></div>
+
+    <div class="eventDetailsSection leftRightSpacing pt30"
+      *ngIf="eventDetails && eventDetails.events && eventDetails.eventMedia">
+      <h2>{{eventDetails.events.name}}</h2>
+      <div class="timeDate align-center pb25">
+        <img src="../../assets/images/calendar2.svg" class="mr5" alt="">
+        {{eventDetails.events.date|date}}
+        <svg class="ml10 mr10" width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="2" cy="2" r="2" fill="rgba(134, 92, 208, 0.3)" />
+        </svg>
+        {{eventDetails.events.startTime|hour}} - {{eventDetails.events.endTime|hour}}
+      </div>
+
+      <div class="text-light mb25">
+        {{eventDetails.events.description}}
+        <!-- <div class="readMore mt10 text-dark fw-500">Read More</div> -->
+      </div>
+
+      <div class="host align-center mb25">
+        <div class="text-light mr5 fw-500">HOST:</div>
+        <div class="hostUser align-center fw-500 text-dark">
+          <span class="userImg mr5 ml5">
+            <img
+              [src]="eventDetails.events.profilePicture?eventDetails.events.profilePicture:'../../assets/images/deafult-profile-img.svg'"
+              alt="">
+          </span>
+          {{eventDetails.events.userName}}
+        </div>
+      </div>
+
+      <div class="{{eventDetails.friendsCount==0?'noattendees attendees':'attendees'}}" (click)="onClickAttendees()" *ngIf="eventType!='PastEvent'">
+        <h4 class="text-dark">{{eventDetails.attendeesCount}} Attendees</h4>
+        <p class="text-light" *ngIf="eventDetails.friendsCount>0">{{eventDetails.friendsCount}} of your friends are
+          attending</p>
+        <div class="align-center align-between ml20 mt20">
+          <div class="align-center" *ngIf="eventDetails.friendsCount>0">
+            <ng-container *ngIf="eventDetails.attendees.length>4">
+              <div class="atdProfiles mr5" *ngFor="let attendee of eventDetails.attendees;let i=index">
+                <div class="prfImg" *ngIf="i<4">
+                  <img *ngIf="attendee.profilePicture" [src]="attendee.profilePicture" alt="">
+                  <div class="noProfile" *ngIf="!attendee.profilePicture">
+                    {{attendee.name.charAt(0)}}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="eventDetails.attendees.length<=4">
+              <div class="atdProfiles mr5" *ngFor="let attendee of eventDetails.attendees">
+                <div class="prfImg">
+                  <img *ngIf="attendee.profilePicture" [src]="attendee.profilePicture" alt="">
+                  <div class="noProfile" *ngIf="!attendee.profilePicture">
+                    {{attendee.name.charAt(0)}}
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="eventDetails.attendees.length>4">
+              + {{eventDetails.attendees.length-4}} more
+            </ng-container>
+          </div>
+          <div class="arrow">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 6L15 12L9 18" stroke="#18161D" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="align-center align-left mt30 mb30">
+        <div id="map" class="mapBox" #map></div>
+        <div class="address">
+          <h5 class="text-dark">Location</h5>
+          <div class="text-light">{{eventDetails.events.location}}</div>
+        </div>
+      </div>
+
+    </div>
+  </ng-container>
+</ion-content>
+
+<ng-container *ngIf="!isLoading">
+  <ion-footer *ngIf="eventDetails && eventDetails.events && eventType!='PastEvent' && eventDetails.isInviteShow" >
+    <ion-toolbar>
+      <div class="footerDiv align-center justify-content-end">
+        <ion-button class="grayBtn" shape="" fill="" expand="block" [routerLink]="['/app/events']">Cancel</ion-button>
+        <ion-button shape="" expand="block" [routerLink]="['/invite-friends']" [state]= "{ eventId: eventId }">Invite a friend</ion-button>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+
+  <ion-footer *ngIf="eventDetails && eventDetails.events && eventType!='PastEvent' && !eventDetails.isInviteShow" >
+    <ion-toolbar>
+      <div class="footerDiv fullBtn">
+        <ion-button shape="" (click)="insertEventAttendee()">I'll Attend</ion-button>
+      </div>
+    </ion-toolbar>
+  </ion-footer>
+</ng-container>

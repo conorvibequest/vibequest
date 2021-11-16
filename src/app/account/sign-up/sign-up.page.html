@@ -1,0 +1,76 @@
+<ion-content>
+  <div class="formDiv leftRightSpacing">
+    <div class="formdetailsSection">
+      <h1 class="pb10">Sign Up</h1>
+      <form [formGroup]="signupForm" (ngSubmit)="doSignup()">
+        <div class="signInfo">
+          <div class="inputs-list pb60">
+            <div class="inputDiv">
+              <ion-label>Full Name</ion-label>
+              <ion-input type="text" placeholder="Full Name" (keyup.enter)="closeKeyboard()"  formControlName="fullname" 
+                inputmode="text"></ion-input>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validation_messages.fullname">
+                  <div class="error-message"
+                    *ngIf="signupForm.get('fullname').hasError(validation.type) && (signupForm.get('fullname').dirty || signupForm.get('fullname').touched || isSubmitted)">
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <div class="inputDiv">
+              <ion-label>Email</ion-label>
+              <ion-input type="email" placeholder="Email" (keyup.enter)="closeKeyboard()" formControlName="email" autocapitalize="off"
+                inputmode="email"></ion-input>
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validation_messages.email">
+                  <div class="error-message"
+                    *ngIf="signupForm.get('email').hasError(validation.type) && (signupForm.get('email').dirty || signupForm.get('email').touched || isSubmitted)">
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <div class="inputDiv passwordInput">
+              <ion-label>Password</ion-label>
+              <ion-input type="password" #password placeholder="Password" (keyup.enter)="closeKeyboard()" formControlName="password"></ion-input>
+              <div class="hidePassword">
+                <a class="type-toggle" (click)="toggleShow()">
+                  <ion-icon class="show-option" [hidden]="showPassword" name="eye-off-outline"></ion-icon>
+                  <ion-icon class="hide-option" [hidden]="!showPassword" name="eye-outline"></ion-icon>
+                </a>
+              </div>
+              <!-- <div class="hidePassword">
+                <svg class="myIcon">
+                  <use xlink:href="../../assets/sprite.svg#hide"></use>
+                </svg>
+              </div> -->
+              <div class="error-container">
+                <ng-container *ngFor="let validation of validation_messages.password">
+                  <div class="error-message"
+                    *ngIf="signupForm.get('password').hasError(validation.type) && (signupForm.get('password').dirty || signupForm.get('password').touched || isSubmitted)">
+                    <span>{{ validation.message }}</span>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+            <!-- <div class="inputDiv passwordInput">
+            <ion-label>Confirm Password</ion-label>
+              <ion-input type="Password"></ion-input>
+              <div class="hidePassword">
+                <svg class="myIcon">
+                  <use xlink:href="../../assets/sprite.svg#hide"></use>
+                </svg>
+              </div>
+          </div>  -->
+          </div>
+          <ion-button class="p0" shape="" expand="block" [disabled]="!isChecked" type="submit">Sign up</ion-button>
+
+          <div class="signLoginDiv">
+            Already have an account? <strong class="fw-500 text-link" [routerLink]="['/login']">Login</strong>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

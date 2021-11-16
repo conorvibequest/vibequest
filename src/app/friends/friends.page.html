@@ -1,0 +1,92 @@
+
+<ion-content>
+  <div class="topHead pb15 space-between">    
+    <h1 class="p0">
+      Friends
+    </h1>
+    <div class="searchDiv" [routerLink]="['/search']" [state]="{ friends: this.friendsList }">
+      <svg class="myIcon">
+        <use xlink:href="../../assets/sprite.svg#searchIcon"></use>
+      </svg>
+    </div>
+  </div>  
+
+  <ng-container *ngIf="isLoading">
+    <!-- Skeleton Section -->
+    <div class="leftRightSpacing block mt20">
+      <div class="border-bottom align-center pb30">
+        <ion-skeleton-text animated style="width: 45px; height:  45px;  border-radius: 50%;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: calc(100% - 45px); margin-left: 20px; height:  25px;">
+        </ion-skeleton-text>
+      </div>  
+      <div class="border-bottom align-center pb30">
+        <ion-skeleton-text animated style="width: 45px; height:  45px;  border-radius: 50%;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: calc(100% - 65px); margin-left: 20px; height:  25px;">
+        </ion-skeleton-text>
+      </div>  
+      <div class="border-bottom align-center pb30">
+        <ion-skeleton-text animated style="width: 45px; height:  45px;  border-radius: 50%;">
+        </ion-skeleton-text>
+        <ion-skeleton-text animated style="width: calc(100% - 35px); margin-left: 20px; height:  25px;">
+        </ion-skeleton-text>
+      </div>  
+    </div>
+    <!-- End Skeleton Section -->
+  </ng-container>
+
+  <ng-container *ngIf="friendsList?.length <= 0 && !isLoading">
+    <div class="createNewDiv leftRightSpacing pt180">
+      <div class="addFriend pb30">
+        <svg class="myIcon">
+          <use xlink:href="../../assets/sprite.svg#addFriend"></use>
+        </svg>
+      </div>
+      <p>Add friends to quickly notify them about your favorite events</p>    
+    </div>
+  </ng-container>
+  <div *ngIf="friendsList?.length > 0 && !isLoading">
+      <div class="friendsListDetails leftRightSpacing">
+        <div class="friendsList" *ngFor="let friend of friendsList">
+          <div class="friendsInfo">
+            <div class="friendsImg">
+              <ng-container *ngIf="friend.profilePicture">
+                <img src="{{friend.profilePicture}}" alt="">
+              </ng-container>
+              <ng-container *ngIf="!friend.profilePicture">
+                <img src="../../assets/images/deafultFriendsProfile.svg" alt="">
+              </ng-container>
+            </div>
+            <div class="friendsName">
+              {{friend.name}}
+            </div>
+          </div>
+          <div class="removePerson">
+            <ng-container>
+              <svg class="myIcon"  (click)="presentAlertConfirm(friend.friendUserId,friend.name)">
+                <use xlink:href="../../assets/sprite.svg#removePerson"></use>
+              </svg>
+            </ng-container>
+            <!-- <ng-container>
+              <ion-button shape="" expand="block">Add</ion-button>
+            </ng-container> -->
+          </div>
+        </div>
+      </div>      
+  </div>
+  <!-- <div class="addIcon">
+    <div class="plusIcon" [routerLink]="['/add-friends']">
+      <img src="../../assets/images/plus.svg" alt="">
+    </div>
+  </div> -->
+  <div class="addIcon">    
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed" [routerLink]="['/add-friends']">
+      <ion-fab-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+    
+
+</ion-content>

@@ -1,0 +1,89 @@
+<!-- <ion-header>
+  <ion-toolbar class="ionHeader">
+    <ion-title class="centerLogo">
+      <img src="../../assets/icon/recFish.svg" alt="">
+    </ion-title>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content>
+  <div class="permissionPage">
+    <h1>Vibe Quest</h1>
+    <div class="permDesc">Needs your permission to work </div>
+
+    <div class="permissionBox">
+      <div>
+        <div class="align-top prmBox">
+          <div class="iconBox">
+            <img src="../../assets/images/camera.svg" alt="">
+          </div>
+          <div class="prmCont">
+            <h3>Camera Access</h3>
+            <span>Allows you to take and upload new event photos </span>
+            <ion-button shape="round" fill="outline" class="allowBtn" [disabled]="isCameraAuthorized"
+              (click)="onClickCameraAccess()">Continue</ion-button>
+          </div>
+        </div>
+        <div class="align-top prmBox">
+          <div class="iconBox">
+            <img src="../../assets/images/download.svg" alt="">
+          </div>
+          <div class="prmCont">
+            <h3>Stored Photo Access</h3>
+            <span>
+              Allows you to see photos saved on your device so you can select the ones you want to upload.
+            </span>
+            <ion-button shape="round" fill="outline" class="allowBtn" [disabled]="isGalleryAuthorized"
+              (click)="onClickGalleryAccess()">Continue</ion-button>
+          </div>
+        </div>
+        <div class="align-top prmBox">
+          <div class="iconBox">
+            <img src="../../assets/images/location-blue.svg" alt="">
+          </div>
+          <div class="prmCont">
+            <h3>Location Access</h3>
+            <span>Allows to locate you and find events nearby you </span>
+            <ion-button shape="round" fill="outline" class="allowBtn" [disabled]="isLocationAuthorized"
+              (click)="onClickLocationAccess()">Continue</ion-button>
+          </div>
+        </div>
+      </div>
+
+      <div class="startBtn">
+        <ion-button class="login-btn" type="submit" expand="block" shape="round" (click)="onClickContinue()"
+          [disabled]="!isCameraAuthorized || !isGalleryAuthorized || !isLocationAuthorized">
+          Start
+          <svg xmlns="http://www.w3.org/2000/svg" width="10.85" height="9.728" viewBox="0 0 10.85 9.728" class="ml5">
+            <g id="button-arrow" transform="translate(0.5 0.707)">
+              <path id="path" d="M1281.487,1163.709l4.157,4.157-4.157,4.157" transform="translate(-1275.794 -1163.709)"
+                fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" />
+              <line id="line" x1="9.326" transform="translate(0 4.155)" fill="none" stroke="#fff" stroke-linecap="round"
+                stroke-width="1" />
+            </g>
+          </svg>
+        </ion-button>
+      </div>
+
+      <div class="customPopup" *ngIf="isShowPopup">
+        <div class="custPopupBox">
+          <div class="popIcon">
+            <img src="../../assets/images/location-blue.svg">
+          </div>
+          <h4 class="text-primary">Location is not enabled.</h4>
+          Please turn on device location.
+          <div class="custPopupBtn">
+            <div class="align-center justify-content-end text-primary fw-500 custPopupBtnSection">
+              <ion-button expand="block" fill="clear" class="grayBtn" (click)="cancel()">Cancel</ion-button>
+              <ion-button shape="" expand="block" mode="ios" color="primary" (click)="onClickGrantPermission()">Turn on
+              </ion-button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</ion-content>

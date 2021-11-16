@@ -1,0 +1,43 @@
+<ion-content>
+
+  <div class="topHead searchFriendsBox">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton" (click)="backRedirect()"></ion-back-button>
+    </div>
+    <div class="searchbarDiv">
+      <ion-searchbar mode="ios" (keypress)="closeKeyboard($event)" (ionChange)="filterEvents()" [(ngModel)]="searchTerm">
+      </ion-searchbar>
+    </div>
+  </div>
+
+
+  <div class="friendsListDetails leftRightSpacing searchEventDiv" *ngFor="let event of eventList;let i = index">
+    <div class="friendsList align-center" [routerLink]="['/event-details']" [state]="{eventId : event.id}">
+      <div class="friendsInfo">
+        <div class="friendsImg">
+          <img src="{{event.mediaFileName}}" alt="">
+        </div>        
+      </div>
+     <div class="aearchEventInfo">
+      <div class="friendsName">
+        {{event.name}}
+      </div>
+      <div class="timeDate align-center">
+        <img src="../../assets/images/calendar2.svg" class="mr5" alt="">
+        {{event.date|date}}
+        <svg class="ml10 mr10" width="4" height="4" viewBox="0 0 4 4" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="2" cy="2" r="2" fill="rgba(134, 92, 208, 0.3)" />
+        </svg>
+        {{ event.startTime}} - {{event.endTime}}
+      </div>
+     </div>
+    </div>
+  </div>
+
+  <div *ngIf="isSearchEventEmpty">
+    <h3>No records found! 3</h3>
+  </div>
+</ion-content>

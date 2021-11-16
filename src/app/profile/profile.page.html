@@ -1,0 +1,100 @@
+<ion-header>
+  <div class="topHead">    
+    <h1 class="p0">Profile</h1>
+  </div>
+</ion-header>
+<ion-content> 
+  <ion-refresher slot="fixed" pullFactor="0.5" pullMin="100" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  
+  <div class="profileDiv">
+    <div class="photo">
+      <ng-container>
+        <img [src]="imageURL" alt="">
+      </ng-container>
+      <span class="photoEdit" (click)="selectImage()">
+        <img src="../../assets/images/edit.svg" alt="">
+      </span>
+    </div>    
+  </div>
+
+  <ng-container *ngIf="isLoading">
+    <div class="align-center justify-content-center p80">
+      <ion-spinner></ion-spinner>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!isLoading">
+    <div class="leftRightSpacing profileForm">
+      <div class="inputs-list">
+        <div class="inputDiv">
+          <ion-label>Name</ion-label>
+          <ion-input type="text" [(ngModel)]="userProfileDetails.name" (ionBlur)="userNameUpdate()"></ion-input>
+        </div>
+        <div class="inputDiv">
+          <ion-label>Email ID</ion-label>
+          <ion-input type="email" [value]="userProfileDetails.email" [disabled]="true"></ion-input>
+        </div>
+      </div>
+
+      <div class="align-center align-between mt50 pb15">
+        <h3 class="p0">Interests</h3>
+        <a class="text-link" (click)="onClickEditInterest()">Edit</a>
+      </div>
+      
+      <div class="eventsList">
+        <div class="eventsListRow">
+          <div class="event partyEvent" *ngFor="let eventCat of userProfileDetails.categories"> 
+            <div class="eventImg">
+              <img src='{{eventCat.largeImagePath}}' alt="">
+            </div>
+            <ion-label>{{eventCat.name}}</ion-label>         
+          </div>
+        </div>
+      </div>
+
+      <div class="logout align-center align-left pb10 pt10 mb40" (click)="onClickLogout()">
+        <img class="mr5" src="../../assets/images/logout.svg">
+        Logout
+      </div>
+
+      <div class="customPopup" *ngIf="isShowCameraPopup">
+        <div class="custPopupBox">
+          <div class="popIcon">
+            <img src="../../assets/images/camera.svg">
+          </div>
+          <h4 class="text-primary">Camera permission is not enabled.</h4>
+          {{popupMsg}}
+          <div class="custPopupBtn">
+            <div class="text-center text-primary fw-500">
+              <ion-button expand="full" color="primary" fill="clear" (click)="onClickGrantPermission()">Grant Permission</ion-button>          
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="customPopup" *ngIf="isShowGalleryPopup">
+        <div class="custPopupBox">
+          <div class="popIcon">
+            <img src="../../assets/images/gallery-blue .svg">
+          </div>
+          <h4 class="text-primary">Gallery permission is not enabled.</h4>
+          VibeQuest does not have access to your gallery. Enabling the access will allow you to upload the photos from your gallery.
+          <div class="custPopupBtn">
+            <div class="text-center text-primary fw-500">
+              <ion-button expand="full" color="primary" fill="clear" (click)="onClickGrantPermission()">Grant Permission</ion-button>          
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </ng-container>
+
+</ion-content>

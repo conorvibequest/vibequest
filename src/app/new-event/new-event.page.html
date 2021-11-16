@@ -1,0 +1,197 @@
+<ion-content>
+
+  <div class="align-center topHead">
+    <div class="backButtonBox">
+      <svg class="myIcon backIcon dark">
+        <use xlink:href="../../assets/sprite.svg#backButton"></use>
+      </svg>
+      <ion-back-button class="backButton"></ion-back-button>
+    </div>
+    <h1>
+      {{this.isEdit?'Edit Event':'New event'}}
+    </h1>
+  </div>
+
+
+  <div class="newEventDiv">
+    <div class="inputs-list leftRightSpacing">
+      <div class="inputDiv">
+        <ion-label>Name</ion-label>
+        <ion-input type="text" name="name" (keyup.enter)="closeKeyboard()" [(ngModel)]="name" #nameCtrl="ngModel" required></ion-input>
+        <div class="error-message" *ngIf="!nameCtrl.valid && nameCtrl.touched">
+          <ion-text color="danger">Name is required</ion-text>
+        </div>
+      </div>
+      <div class="inputDiv textareaBox">
+        <ion-label>Description</ion-label>
+        <textarea [(ngModel)]="description" (keyup.enter)="closeKeyboard()"></textarea>
+      </div>
+      <div class="inputDiv typeBtnsSection">
+        <ion-label>Type</ion-label>
+        <div class="typeBtnsDiv">
+          <div class="typeBtn" id="eventPublic" (click)="SetEventType('Public')">Public </div>
+          <div class="typeBtn" id="eventPrivate" (click)="SetEventType('Private')">Private </div>
+        </div>
+      </div>
+
+      <div class="inputDiv">
+        <ion-label>Location</ion-label>
+        <div class="relative">
+          <ion-input (ionChange)="search()" (keyup.enter)="closeKeyboard()" [(ngModel)]="searchKey"></ion-input>
+          <div class="closeIcon">
+            <a class="type-toggle" (click)="onClear()">
+              <ion-icon *ngIf="searchKey.length>0" name="close-outline"></ion-icon>
+            </a>
+          </div>
+          <!-- <button class="closeIcon" (click)="onClear()">
+            <ion-icon *ngIf="searchKey.length>0" name="close-outline"></ion-icon>
+          </button> -->
+        </div>
+      </div>
+      <div *ngIf="places && places.length>0" class="autocomplete-address-list common-bg-light" lines="full">
+        <div class="locationList autolist">
+          <div class="listItem align-center align-left" tappable
+            (click)="onClickPickAddress(place.raw.lat, place.raw.lon,place.raw.display_name)"
+            *ngFor="let place of places">
+            <ion-icon class="loactionIcon" name="location-outline" slot="start"></ion-icon>
+            {{place.raw.display_name}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider mt30"></div>
+
+    <div class="eventDetails leftRightSpacing">
+      <ion-item lines="none" class="eventDetailsBox">
+        <ion-label class="eventDetailsLabel">Date </ion-label>
+        <ion-datetime class="eventDetailsInfo" (ionChange)="onChangeDate($event)" [value]="eventDate" max="2025-12-31"
+          placeholder="Select Date">
+        </ion-datetime>
+      </ion-item>
+      <ion-item lines="none" class="eventDetailsBox">
+        <ion-label class="eventDetailsLabel">Event starts </ion-label>
+        <ion-datetime class="eventDetailsInfo" (ionChange)="onChangeStartTime($event)" displayFormat="h:mm A"
+          pickerFormat="h:mm A" [value]="eventStartTime"></ion-datetime>
+      </ion-item>
+      <ion-item lines="none" class="eventDetailsBox">
+        <ion-label class="eventDetailsLabel">Event ends </ion-label>
+        <ion-datetime class="eventDetailsInfo" (ionChange)="onChangeEndTime($event)" displayFormat="h:mm A"
+          pickerFormat="h:mm A" [value]="eventEndTime">
+        </ion-datetime>
+      </ion-item>
+    </div>
+
+    <div class="divider"></div>
+    <svg class="myIcon">
+      <use xlink:href="../../assets/images/event-icons/dancing.svg"></use>
+    </svg>
+    <div class="chooseCategoryDiv leftRightSpacing">
+      <h3>Choose category</h3>
+      <div class="chooseCategoryDetails">
+        <div *ngFor="let category of categories">
+          <div class="chooseCategoryBox {{category.name | lowercase}}" id="category_{{category.id}}"
+            (click)="onClickCategory(category.id,category.name)">
+            <div class="categoryIcon">
+              <img id="{{category.name}}" [src]="category.iconPath">
+            </div>
+            <ion-label> {{category.name}}</ion-label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="mediaDiv leftRightSpacing">
+      <h3>Media</h3>
+      <div class="profileSilderBox">
+        <div class="profileSilderContent">
+          <div class="profileItem addPhoto align-center justify-content-center">
+            <div class="cameraIconDiv" (click)="selectImage()">
+              <svg class="myIcon">
+                <use xlink:href="../../assets/sprite.svg#cameraIcon"></use>
+              </svg>
+            </div>
+          </div>
+          <div class="addedPhotosDiv">
+            <ion-slides #slides [options]="slideOpts" pager="false">    
+            <ng-container *ngIf="imageData && imageData.length>0">
+              <ion-slide class="addedPhotos" *ngFor="let image of imageData;let i=index">
+                <div class="addedPhotosBox profileItem">
+                  <img [src]="DomSanitizer.bypassSecurityTrustUrl(image)">
+                  <div class="mediaRemoveIcon">
+                    <svg class="myIcon" (click)="onClickDelete(i)">
+                      <use xlink:href="../../assets/sprite.svg#mediaRemoveIcon"></use>
+                    </svg>
+                  </div>
+                </div>
+              </ion-slide>
+            </ng-container>
+            <ng-container *ngIf="editImageData && editImageData.length>0 && isEdit">
+              <ion-slide class="addedPhotos" *ngFor="let imageData of editImageData;let i=index">
+                <div class="addedPhotosBox profileItem">
+                  <img [src]="imageData.fileName">
+                  <div class="mediaRemoveIcon">
+                    <svg class="myIcon" (click)="onClickDeleteEditImage(imageData.id)">
+                      <use xlink:href="../../assets/sprite.svg#mediaRemoveIcon"></use>
+                    </svg>
+                  </div>
+                </div>
+              </ion-slide>
+            </ng-container>
+          </ion-slides>
+          </div>
+
+          <div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="customPopup" *ngIf="isShowCameraPopup">
+    <div class="custPopupBox">
+      <div class="popIcon">
+        <img src="../../assets/images/camera.svg">
+      </div>
+      <h4 class="text-primary">Camera permission is not enabled.</h4>
+      {{popupMsg}}
+      <div class="custPopupBtn">
+        <div class="text-center text-primary fw-500">
+          <ion-button expand="full" color="primary" fill="clear" (click)="onClickGrantPermission()">Grant Permission
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="customPopup" *ngIf="isShowGalleryPopup">
+    <div class="custPopupBox">
+      <div class="popIcon">
+        <img src="../../assets/images/gallery-blue .svg">
+      </div>
+      <h4 class="text-primary">Gallery permission is not enabled.</h4>
+      VibeQuest does not have access to your gallery. Enabling the access will allow you to upload the fish photos from
+      your gallery.
+      <div class="custPopupBtn">
+        <div class="text-center text-primary fw-500">
+          <ion-button expand="full" color="primary" fill="clear" (click)="onClickGrantPermission()">Grant Permission
+          </ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="footerDiv align-center justify-content-end">
+      <ion-button class="grayBtn" shape="" fill="" expand="block" [routerLink]="['/app/events']">Discard</ion-button>
+      <ion-button shape="" expand="block" mode="ios" [disabled]="(!nameCtrl.valid || !isCategoryChoosen)"
+        (click)="onClickCreate()">{{this.isEdit?'Save':'Create'}}</ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

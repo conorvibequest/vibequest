@@ -1,0 +1,7 @@
+{
+  "name": "VibeQuest",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

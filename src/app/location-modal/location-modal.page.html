@@ -1,0 +1,31 @@
+<ion-content>
+  <div class="leftRightSpacing">
+    <div class="dashModal pt10 pb20">
+      <svg width="40" height="8" viewBox="0 0 50 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="8" rx="4" fill="#CDD7DF"/>
+      </svg>        
+    </div>
+    <div class="searchbarDiv">
+      <ion-searchbar mode="ios" placeholder="Search Location" (ionChange)="search()" [(ngModel)]="searchKey">
+      </ion-searchbar>
+    </div>
+    <div class="useCurrentLocation pt20 " (click)="onClickCurrentLocation()">
+      <div class="useCurrentLocationDiv align-center">      
+        <img src="../../assets/images/currentLocation.svg" alt="">
+        <div class="d-block">
+          <h4>Use Current Location</h4>
+        </div>
+      </div>
+    </div>
+    <div class="serachLocationArea" *ngIf="places && places.length>0">
+        <div class="locationsListing" *ngFor="let place of places" tappable (click)="onClickPickAddress(place)">
+          <div class="mapIcon">
+            <img src="../../assets/images/location.svg" alt="">
+          </div>
+          <div class="locationAddress">
+            {{place.raw.display_name}}
+          </div>
+        </div>
+    </div>
+  </div>
+</ion-content>

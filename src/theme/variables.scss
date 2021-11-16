@@ -1,0 +1,130 @@
+// Ionic Variables and Theming. For more info, please see:
+// http://ionicframework.com/docs/theming/
+
+/** Ionic CSS Variables **/
+
+
+:root {
+
+  --tag-party:  #FFC600;
+  --tag-reading: #A15301;
+  --tag-cooking: #F62E2E;
+  --tag-beach: #359CFB;
+  --tag-games: #262626;
+  --tag-dancing: #F66E43;
+  --tag-singing: #F258B6;
+  --tag-painting:#C143D6;
+  --tag-sports:  #FFA800;
+  
+  --ion-font-family: 'poppins';
+
+  /** primary **/
+  --ion-color-primary: #865CD0;
+  --ion-color-primary-rgb: rgba(134, 92, 208, 0.2);
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #7043bd;
+  --ion-color-primary-tint: #8d5edd;
+
+  /** secondary **/
+  --ion-color-secondary: #f66e43;
+  --ion-color-secondary-rgb: 246, 110, 67;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #e6653e;
+  --ion-color-secondary-tint: #f88360;
+
+  /** tertiary **/
+  --ion-color-tertiary: #865CD0;
+  --ion-color-tertiary-rgb: 135, 93, 208;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #7043bd;
+  --ion-color-tertiary-tint: #8d5edd;
+
+  /** success **/
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+
+  /** warning **/
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  /** danger **/
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c4f;
+  --ion-color-danger-tint: #ed576b;
+
+  /** dark **/
+  --ion-color-dark: #18161D;
+  --ion-color-dark-rgb: 38, 45, 46;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /** medium **/
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9d9fa6;
+
+  /** light **/
+  --ion-color-light: rgba(38, 45, 46, 0.6);
+  --ion-color-light-rgba: 244, 245, 248;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+}
+
+
+// Custome Spacing //
+@mixin spacing_factory ($start,$number,$end) {
+  @for $i from 0 to $end {
+    .m#{$number * $i + $start}{ margin: ($number  * $i) + px !important }
+    .mt#{$number * $i + $start}{ margin-top: ($number  * $i) + px !important }
+    .mb#{$number * $i + $start}{ margin-bottom: ($number  * $i) + px !important }
+    .ml#{$number * $i + $start}{ margin-left: ($number  * $i) + px !important }
+    .mr#{$number * $i + $start}{ margin-right: ($number  * $i) + px !important }
+
+    .p#{$number * $i + $start} { padding: ($number  * $i) + px !important }
+    .pt#{$number * $i + $start}{ padding-top: ($number  * $i) + px !important }
+    .pb#{$number * $i + $start}{ padding-bottom: ($number  * $i) + px !important }
+    .pl#{$number * $i + $start}{ padding-left: ($number  * $i) + px !important }
+    .pr#{$number * $i + $start}{ padding-right: ($number  * $i) + px !important }
+  }
+}
+@include spacing_factory (0,5,60);
+// END Custome Spacing  -----------------------------//
+
+.fw-700{
+  font-weight: 700 !important;
+}
+.fw-600{
+  font-weight: 600 !important;
+}
+.fw-500{
+  font-weight: 500 !important;
+}
+.fw-400{
+  font-weight: 400 !important;
+}
+.fw-300{
+  font-weight: 300 !important;
+}
+
+/**|End|**/

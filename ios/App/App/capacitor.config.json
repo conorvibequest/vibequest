@@ -1,0 +1,15 @@
+{
+	"appId": "com.vibequesttest.app",
+	"appName": "VibeQuest",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 1500,
+			"launchAutoHide": true,
+			"androidScaleType": "CENTER_CROP",
+			"splashFullScreen": false,
+			"splashImmersive": false
+		}
+	}
+}
